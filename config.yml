@@ -1,0 +1,3 @@
+# Configurations
+setup_dns_server: true
+install_wordpress: true
