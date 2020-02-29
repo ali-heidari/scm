@@ -1,4 +1,6 @@
 # Load packages
+import sys 
+sys.path.insert(1, 'src')
 from setup import Setup
 from config import Configuration
 import yaml
