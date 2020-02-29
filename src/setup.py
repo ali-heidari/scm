@@ -1,4 +1,6 @@
 import subprocess
+import os
+from config import Configuration
 
 
 class Setup:
@@ -12,19 +14,19 @@ class Setup:
     def __init__(self, configs: tuple):
         self._configs = configs
 
-
     def run_command(self, command_segments: tuple) -> tuple:
-        ''' Run the command using the segments passed as tuple and return Output, Error and returnCode as tuple '''
+        ''' 
+        Run the command using the segments passed as tuple and return Output, Error and returnCode as tuple. 
+        It returns (command, output, error, returnCode)
+        '''
 
         proc = subprocess.Popen(
             command_segments, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         o, e = proc.communicate()
 
-        result_messages = ('Output: ' + o.decode('ascii'), 'Error: ' +
-                           e.decode('ascii'), 'code: ' + str(proc.returncode))
+        return (' '.join(command_segments), o.decode('ascii'),e.decode('ascii'), str(proc.returncode))
 
-     
     def install_package(self, name):
         ''' Install the package '''
 
@@ -53,7 +55,7 @@ class Setup:
     def run(self):
         ''' Run the setup '''
 
-        self.run_command(["cd", "~"])
+        os.chdir(os.path.expanduser("~"))
         # self.run_command(["mkdir", "csm-x64"])
         # self.run_command(["cd", "csm-x64"])
         # self.check_requirements()
