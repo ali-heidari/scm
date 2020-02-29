@@ -1,3 +1,5 @@
+[![codebeat badge](https://codebeat.co/badges/82f490f7-cebb-485e-a80b-db8c14c7fdb8)](https://codebeat.co/projects/github-com-ali-heidari-scm-master)
+
 # scm
 
 Simple Cent-os Management is a tool to set basic configs of a Cent OS server.
