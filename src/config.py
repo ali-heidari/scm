@@ -1,17 +1,12 @@
-import subprocess
 
+class Configuration:
+    def __init__(self):
+        super().__init__()
 
-def main():
-    cmd = ['yum','list', 'installed', 'curl']
-    cmd = ['ls','-la']
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-    o, e = proc.communicate()
-
-    print('Output: ' + o.decode('ascii'))
-    print('Error: '  + e.decode('ascii'))
-    print('code: ' + str(proc.returncode))
-
-
-if __name__ == "__main__":
-    main()
+    # Wrap several messages between sequences of *, to distinguish from other prints
+    @staticmethod
+    def print_wrapped(messages: tuple):
+        print("*****************************\t"+messages[0])
+        for message in messages[1:]:
+            print(message)
+        print("********************************************************\n")

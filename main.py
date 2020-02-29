@@ -1,20 +1,25 @@
 # Load packages
-import src.config
-import yaml 
+from setup import Setup
+from config import Configuration
+import yaml
 
-# Show a message for introduction of SCM
 def show_intro():
-    print("The SCM")
-    print("Simple Cent-os Management")
+    ''' Show a message for introduction of SCM '''
+    Configuration.print_wrapped(("The SCM", "Simple Cent-os Management"))
 
-# Load YAML configuration file
+
 def load_configs():
-    with open('config.yml','r') as file:
+    ''' Load YAML configuration file '''
+    with open('config.yml', 'r') as file:
         configs = yaml.load(file, Loader=yaml.Loader)
+        messages = ["Configs"] 
         for item in configs:
-            print(item + ": "+ str(configs[item]))
+            messages.append(item + ": " + str(configs[item]))
+        Configuration.print_wrapped(messages)
+        return configs
 
 
 if __name__ == "__main__":
     show_intro()
-    load_configs()
+    setup = Setup(load_configs())
+    setup.run()
