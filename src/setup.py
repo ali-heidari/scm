@@ -14,24 +14,28 @@ class Setup:
     def __init__(self, configs: tuple):
         self._configs = configs
 
-    def run_command(self, command_segments: tuple) -> tuple:
+    def run_command(self, command) -> tuple:
         ''' 
         Run the command using the segments passed as tuple and return Output, Error and returnCode as tuple. 
         It returns (command, output, error, returnCode)
         '''
 
         proc = subprocess.Popen(
-            command_segments, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
         o, e = proc.communicate()
 
-        return (' '.join(command_segments), o, e, str(proc.returncode))
+        print(command)
+        print(o)
+        if e:
+            print(e)
+
+        return (command, o, e, str(proc.returncode))
 
     def install_package(self, name):
         ''' Install the package '''
 
-        self._yum_install = ['yum', 'install',  name]
-        Configuration.print_wrapped(self.run_command(self._yum_install))
+        Configuration.print_wrapped(self.run_command("yum install "+name))
         return True
 
     def install_xampp(self):
@@ -40,9 +44,9 @@ class Setup:
         run_file = "xampp-linux-x64-" + \
             _configs['xampp_version']+"-installer.run"
         self.run_command(
-            ["curl", "https://www.apachefriends.org/xampp-files/7.4.2/"+run_file])
-        self.run_command(["chmod", "755", run_file])
-        self.run_command(["./"+run_file])
+            "curl https://www.apachefriends.org/xampp-files/7.4.2/"+run_file)
+        self.run_command("chmod 755 " + run_file)
+        self.run_command("./"+run_file)
 
     def check_requirements(self):
         ''' Check the required packages
@@ -51,18 +55,22 @@ class Setup:
 
         self.install_package("curl")
         self.install_xampp()
-        self.run_command("/opt/lampp/bin/mysqladmin", "--user=root",
-                         "password", "\""+self._configs["mysql_root_password"]+"\"")
+        self.run_command("/opt/lampp/bin/mysqladmin --user=root password \"" +
+                         self._configs["mysql_root_password"]+"\"")
         if bool(self._configs["install_wordpress"]):
             self.run_command(
-                "curl", "-XGET", "https://wordpress.org/latest.tar.gz",  "-o", "wordpress-latest.tar.gz")
-            self.run_command("tar", "-xvzf", "wordpress-latest.tar.gz")
-            self.run_command("mv", "wordpress-latest", "/opt/lampp/htdocs/")
+                "curl -XGET https://wordpress.org/latest.tar.gz -o wordpress-latest.tar.gz")
+            self.run_command("tar -xvzf wordpress-latest.tar.gz")
+            self.run_command("mv wordpress-latest /opt/lampp/htdocs/")
+            self.run_command("/opt/lampp/bin/mysql -u root -p" +
+                             self._configs["mysql_root_password"])
+            self.run_command("CREATE", "USER", "'newuser'@'localhost",
+                             "IDENTIFIED", "BY", "'password';")
 
     def run(self):
         ''' Run the setup '''
 
         os.chdir(os.path.expanduser("~"))
-        self.run_command(["mkdir", "csm-x64"])
+        self.run_command("mkdir csm-x64")
         os.chdir(os.path.expanduser("~/csm-x64"))
         self.check_requirements()
