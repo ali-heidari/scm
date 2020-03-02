@@ -25,13 +25,13 @@ class Setup:
 
         o, e = proc.communicate()
 
-        return (' '.join(command_segments), o.decode('ascii'),e.decode('ascii'), str(proc.returncode))
+        return (' '.join(command_segments), o, e, str(proc.returncode))
 
     def install_package(self, name):
         ''' Install the package '''
 
-        self._yum_install = ['ls', '-la']  # ['yum', 'install',  name]
-        self.run_command(self._yum_install)
+        self._yum_install = ['yum', 'install',  name]
+        Configuration.print_wrapped(self.run_command(self._yum_install))
         return True
 
     def install_xampp(self):
@@ -49,13 +49,18 @@ class Setup:
         cUrl, XAMPP
         '''
 
-        # self.install_package("curl")
-        self.inst
+        self.install_package("curl")
+        self.install_xampp()
+        if bool(self._configs["install_wordpress"]):
+            self.run_command(
+                "curl", "-XGET", "https://wordpress.org/latest.tar.gz",  "-o", "wordpress-latest.tar.gz")
+            self.run_command("tar", "-xvzf", "wordpress-latest.tar.gz")    
+            self.run_command("mv", "wordpress-latest", "/opt/lampp/htdocs/")    
 
     def run(self):
         ''' Run the setup '''
 
         os.chdir(os.path.expanduser("~"))
-        # self.run_command(["mkdir", "csm-x64"])
-        # self.run_command(["cd", "csm-x64"])
-        # self.check_requirements()
+        self.run_command(["mkdir", "csm-x64"])
+        os.chdir(os.path.expanduser("~/csm-x64"))
+        self.check_requirements()
