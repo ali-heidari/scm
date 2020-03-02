@@ -1,4 +1,5 @@
 # Configurations
 xampp_version: '7.4.2-0'
+mysql_root_password: Ch@nge_ME_2Something$ecure
 setup_dns_server: true
 install_wordpress: true

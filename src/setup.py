@@ -46,16 +46,18 @@ class Setup:
 
     def check_requirements(self):
         ''' Check the required packages
-        cUrl, XAMPP
+        cUrl, XAMPP, wordpress
         '''
 
         self.install_package("curl")
         self.install_xampp()
+        self.run_command("/opt/lampp/bin/mysqladmin", "--user=root",
+                         "password", "\""+self._configs["mysql_root_password"]+"\"")
         if bool(self._configs["install_wordpress"]):
             self.run_command(
                 "curl", "-XGET", "https://wordpress.org/latest.tar.gz",  "-o", "wordpress-latest.tar.gz")
-            self.run_command("tar", "-xvzf", "wordpress-latest.tar.gz")    
-            self.run_command("mv", "wordpress-latest", "/opt/lampp/htdocs/")    
+            self.run_command("tar", "-xvzf", "wordpress-latest.tar.gz")
+            self.run_command("mv", "wordpress-latest", "/opt/lampp/htdocs/")
 
     def run(self):
         ''' Run the setup '''

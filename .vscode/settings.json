@@ -6,6 +6,7 @@
         "chdir",
         "htdocs",
         "lampp",
+        "mysqladmin",
         "pipreqs",
         "xvzf"
     ],
