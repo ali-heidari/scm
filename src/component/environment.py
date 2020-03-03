@@ -27,3 +27,8 @@ class Environment(BaseComponent):
         # If needed, change path inside the created directory
         if cd_into:
             self.change_directory(name)
+
+    def update_yum(self):
+        ''' Excute 'yum update' command '''
+        
+        self.run_command(command="yum update")

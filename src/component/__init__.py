@@ -1,2 +1,2 @@
 
-__all__ = ["curl","mysql","wordpress","xampp","command_failure_error"]
+__all__ = ["curl","mysql","wordpress","xampp","bind","command_failure_error"]

@@ -19,18 +19,24 @@ class Setup:
         cUrl, XAMPP, wordpress
         '''
 
-        curl_instance = curl.CURL("curl")
+        # Update yum
+        self._environment_instance.update_yum()
+
+        curl_instance = curl.CURL()
         xampp_instance = xampp.XAMPP(
             self._configs["xampp_version"], self._configs["mysql_root_password"])
 
         if bool(self._configs["install_wordpress"]):
             xampp_instance.init_wordpress(
                 self._configs["wp_db_user"], self._configs["wp_db_password"])
+                
 
     def run(self):
         ''' Run the setup '''
 
+        # Create a directory for SCM
         self._environment_instance = environment.Environment()
         self._environment_instance.create_directory(
             name="~/csm-x64", cd_into=True)
+        # Install and initialize the required tools    
         self.install_requirements()
