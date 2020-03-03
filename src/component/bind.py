@@ -13,3 +13,4 @@ class BIND(BaseComponent):
 
     def init(self):
         self.run_command("yum -y install bind bind-utils")
+    
