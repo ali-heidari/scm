@@ -1,5 +1,4 @@
-from component import curl,xampp
-import os
+from component import curl, xampp, environment
 from config import Configuration
 
 
@@ -10,6 +9,7 @@ class Setup:
     # Declaring variables
     # Private variables
     _configs = ()
+    _environment_instance: environment.Environment = None
 
     def __init__(self, configs: tuple):
         self._configs = configs
@@ -30,7 +30,7 @@ class Setup:
     def run(self):
         ''' Run the setup '''
 
-        os.chdir(os.path.expanduser("~"))
-        self.run_command("mkdir csm-x64")
-        os.chdir(os.path.expanduser("~/csm-x64"))
+        self._environment_instance = environment.Environment()
+        self._environment_instance.create_directory(
+            name="~/csm-x64", cd_into=True)
         self.install_requirements()
