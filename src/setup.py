@@ -40,6 +40,6 @@ class Setup:
         # Create a directory for SCM
         self._environment_instance = environment.Environment()
         self._environment_instance.create_directory(
-            name="/var/csm-x64", cd_into=True)
+            name="~/scm-x64", cd_into=True)
         # Install and initialize the required tools    
         # self.install_requirements()
