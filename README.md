@@ -3,6 +3,7 @@
 # scm
 
 Simple Cent-os Management is a tool to set basic configs of a Cent OS server.
+**NOTE: THIS IS A TRAINING PROJECT, DO NOT USE IT UNLESS YOU WANT TO CONTRIBUTE OR LEARN.**
 
 ## Requirements
 
