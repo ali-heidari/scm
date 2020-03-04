@@ -2,6 +2,7 @@
 xampp_version: '7.4.2'
 mysql_root_password: Ch@nge_ME_2Something$ecure
 setup_dns_server: true
+domain: "elpixeler.com"
 install_wordpress: true
 wp_db_user: wp_admin
 wp_db_password: Ch@nge_ME_2Something$ecure

@@ -32,6 +32,8 @@ class Setup:
 
         if bool(self._configs["setup_dns_server"]):
             bind_instance=bind.BIND()
+            bind_instance.set_default()
+            bind_instance.add_zone(self._configs["domain"])
                 
 
     def run(self):
@@ -42,4 +44,4 @@ class Setup:
         self._environment_instance.create_directory(
             name="~/scm-x64", cd_into=True)
         # Install and initialize the required tools    
-        # self.install_requirements()
+        self.install_requirements()

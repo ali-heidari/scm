@@ -1,4 +1,5 @@
 from component.base_component import BaseComponent
+import iscpy
 
 
 class BIND(BaseComponent):
@@ -14,15 +15,25 @@ class BIND(BaseComponent):
     def init(self):
         self.run_command("yum -y install bind bind-utils")
 
-    def listen_any(self):
-        ''' Listen to any IP address '''
-
-        with open('/etc/named.conf', 'r') as file: 
-            content = file.read()
-            content = content.replace("listen-on port 53 { 127.0.0.1; };","listen-on port 53 { 127.0.0.1; any; };") 
-
     def set_default(self):
         ''' Sets the default settings '''
 
-        self.listen_any()
-        
+        # Backup named.conf
+        self.run_command("cp /etc/named.conf /etc/named-backup-by-scm.conf")
+        # Set named.conf settings
+        named_content = iscpy.ParseISCString(
+            open("/etc/named.conf", 'r').read())
+        named_content["options"]["listen-on port 53"]["any"] = "True"
+        named_content["options"]["allow-query"]["any"] = "True"
+        iscpy.WriteToFile(named_content, [], "/etc/named.conf")
+
+    def add_zone(self, domain):
+        ''' Add a domain to named.conf '''
+
+        named_content = iscpy.ParseISCString(open("/etc/named.conf", 'r').read())
+        iscpy.AddZone("zone \""+domain+"\" IN {" +
+                    "type master;" +
+                    "file \"/var/named/"+domain+".db\";" +
+                    "allow-update { none; };" +
+                    "}; ", named_content)
+        iscpy.WriteToFile(named_content, [], "/etc/named.conf")
