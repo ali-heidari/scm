@@ -5,6 +5,7 @@
         "XGET",
         "chdir",
         "htdocs",
+        "iscpy",
         "lampp",
         "mysqladmin",
         "nginxparser",
