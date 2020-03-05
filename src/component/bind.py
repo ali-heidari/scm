@@ -1,5 +1,6 @@
 from component.base_component import BaseComponent
 import iscpy
+import string
 
 
 class BIND(BaseComponent):
@@ -27,13 +28,25 @@ class BIND(BaseComponent):
         named_content["options"]["allow-query"]["any"] = "True"
         iscpy.WriteToFile(named_content, [], "/etc/named.conf")
 
-    def add_zone(self, domain):
+    def add_domain(self, domain: str, ip: str):
         ''' Add a domain to named.conf '''
 
-        named_content = iscpy.ParseISCString(open("/etc/named.conf", 'r').read())
+        # Add zone
+        named_content = iscpy.ParseISCString(
+            open("/etc/named.conf", 'r').read())
         iscpy.AddZone("zone \""+domain+"\" IN {" +
-                    "type master;" +
-                    "file \"/var/named/"+domain+".db\";" +
-                    "allow-update { none; };" +
-                    "}; ", named_content)
+                      "type master;" +
+                      "file \"/var/named/"+domain+".db\";" +
+                      "allow-update { none; };" +
+                      "}; ", named_content)
+        iscpy.WriteToFile(named_content, [], "/etc/named.conf")
+        # Add reverse zone
+        reversed_ip = ".".join(reversed(ip.split("."))[1:])
+        named_content = iscpy.ParseISCString(
+            open("/etc/named.conf", 'r').read())
+        iscpy.AddZone("zone \""+reversed_ip+".in-addr.arpa\" IN {" +
+                      "type master;" +
+                      "file \"/var/named/"+".".join(ip.split(".")[1:])+".db\";" +
+                      "allow-update { none; };" +
+                      "};", named_content)
         iscpy.WriteToFile(named_content, [], "/etc/named.conf")

@@ -33,7 +33,7 @@ class Setup:
         if bool(self._configs["setup_dns_server"]):
             bind_instance=bind.BIND()
             bind_instance.set_default()
-            bind_instance.add_zone(self._configs["domain"])
+            bind_instance.add_domain(self._configs["domain"],self._configs["ip"])
                 
 
     def run(self):
