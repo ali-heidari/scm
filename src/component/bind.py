@@ -108,3 +108,8 @@ ftp     IN CNAME        www.{domain}. '''.format(domain=domain, ip=ip)
         # Add reverse zone file
         with open("/var/named/"+reversed_ip+".in-addr.arpa"+".db", 'w') as file:
             file.write(self.create_reversed_zone_content(domain))
+
+    def restart(self):
+        ''' Restart the named service '''
+        self.run_command("systemctl restart named")
+        self.run_command("systemctl enable named")
