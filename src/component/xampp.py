@@ -36,3 +36,13 @@ class XAMPP(BaseComponent):
         self.mysql_instance.create_user(db_user,db_pass)
         self.mysql_instance.create_database(db_user,db_pass,"wp_db")
 
+    def set_access(self):
+        ''' Set access of documents such as htdocs '''
+        
+        # Create user group for xampp
+        self.run_command("groupadd xamppusers")
+        # Add current user to xamppusers
+        self.run_command("usermod -a -G xamppusers $(whoami)")
+        # Give permission to htdocs folder for xamppusers group
+        self.run_command("cd /opt/lampp && chown root.xamppusers htdocs && chmod 775 htdocs")
+

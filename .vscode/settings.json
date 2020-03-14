@@ -10,6 +10,7 @@
         "mysqladmin",
         "nginxparser",
         "pipreqs",
+        "xamppusers",
         "xvzf"
     ],
     "python.testing.unittestArgs": [
