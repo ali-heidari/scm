@@ -24,13 +24,13 @@ class Setup:
 
         curl_instance = curl.CURL()
         xampp_instance = xampp.XAMPP(
-            self._configs["xampp_version"], self._configs["mysql_root_password"])
+            self._configs["xampp"]["version"], self._configs["mysql"]["root_password"])
 
-        if bool(self._configs["install_wordpress"]):
+        if bool(self._configs["mysql"]["install"]):
             xampp_instance.init_wordpress(
-                self._configs["wp_db_user"], self._configs["wp_db_password"])
+                self._configs["wordpress"]["db_user"], self._configs["wordpress"]["db_password"])
 
-        if bool(self._configs["setup_dns_server"]):
+        if bool(self._configs["dns_server"]["setup"]):
             bind_instance=bind.BIND()
             bind_instance.set_default()
             bind_instance.add_domain(self._configs["domain"],self._configs["ip"])

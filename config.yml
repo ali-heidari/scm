@@ -1,9 +1,13 @@
 # Configurations
-xampp_version: '7.4.2'
-mysql_root_password: Ch@nge_ME_2Something$ecure
-setup_dns_server: true
 ip: "192.168.1.100"
 domain: "elpixeler.com"
-install_wordpress: true
-wp_db_user: wp_admin
-wp_db_password: Ch@nge_ME_2Something$ecure
+xampp:
+  version: '7.4.2'
+mysql:
+  root_password: Ch@nge_ME_2Something$ecure
+dns_server:
+  setup: true
+wordpress:
+  install: true
+  db_user: wp_admin
+  db_password: Ch@nge_ME_2Something$ecure
