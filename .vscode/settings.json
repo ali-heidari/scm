@@ -10,6 +10,7 @@
         "mysqladmin",
         "nginxparser",
         "pipreqs",
+        "tmux",
         "xamppusers",
         "xvzf"
     ],
