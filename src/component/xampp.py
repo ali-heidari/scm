@@ -28,6 +28,8 @@ class XAMPP(BaseComponent):
             "curl https://www.apachefriends.org/xampp-files/" + self._version+"/"+run_file)
         self.run_command("chmod 755 " + run_file)
         self.run_command("./"+run_file)
+        # Set permissions
+        self.set_access()
 
     def init_wordpress(self, db_user, db_pass):
         ''' Init a wordpress '''

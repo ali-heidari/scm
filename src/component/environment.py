@@ -32,3 +32,8 @@ class Environment(BaseComponent):
         ''' Excute 'yum update' command '''
         
         self.run_command(command="yum update")
+
+    def install_required_tools(self):
+        ''' Install tools which is useful like tmux '''
+        
+        self.run_command("yum -y install tmux")
