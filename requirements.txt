@@ -1,2 +1,2 @@
 iscpy==1.8
-PyYAML==5.3
+PyYAML==5.4
